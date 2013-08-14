@@ -137,7 +137,11 @@ exports.init = function(grunt) {
 
     parsed.forEach(function(meta) {
       meta.dependencies.forEach(function(dep) {
-        dep = iduri.absolute(alias, dep);
+        if (iduri.isAlias(options, dep)) {
+          iduri.parseAlias(options, dep);
+        } else {
+          dep = iduri.absolute(alias, dep);
+        }
         if (!_.contains(deps, dep) && !_.contains(ids, dep) && !_.contains(ids, dep.replace(/\.js$/, ''))) {
           deps.push(dep);
         }
